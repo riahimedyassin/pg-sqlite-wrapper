@@ -1,7 +1,7 @@
 package managers
 
 import (
-	"github.com/riahimedyassin/pg-sqlite-wrapper/pgsqlwrapper/config"
+	"github.com/riahimedyassin/pg-sqlite-wrapper/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
