@@ -1,4 +1,4 @@
-module astor-bd-wrapper
+module github.com/riahimedyassin/pg-sqlite-wrapper
 
 go 1.21
 
