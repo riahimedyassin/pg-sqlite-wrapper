@@ -1,7 +1,7 @@
 package managers
 
 import (
-	"astor-bd-wrapper/cmd/config"
+	"github.com/riahimedyassin/pg-sqlite-wrapper/src/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"

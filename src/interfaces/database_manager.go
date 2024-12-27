@@ -1,7 +1,7 @@
 package interfaces
 
 import (
-	"astor-bd-wrapper/cmd/config"
+	"github.com/riahimedyassin/pg-sqlite-wrapper/src/config"
 )
 
 type DatabaseWrapper interface {
