@@ -1,19 +1,18 @@
-package managers
+package pglitewrapper
 
 import (
-	"github.com/riahimedyassin/pg-sqlite-wrapper/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
 type DatabaseWrapper struct {
-	dbConfig *config.DatabaseConfig
-	rcConfig *config.ReconnectConfig
+	dbConfig *DatabaseConfig
+	rcConfig *ReconnectConfig
 	DB       *gorm.DB
 }
 
-func NewDatabaseWrapper(dbConfig *config.DatabaseConfig, rcConfig *config.ReconnectConfig) (*DatabaseWrapper, error) {
+func NewDatabaseWrapper(dbConfig *DatabaseConfig, rcConfig *ReconnectConfig) (*DatabaseWrapper, error) {
 	var db *gorm.DB
 	var err error
 	switch dbConfig.Driver {

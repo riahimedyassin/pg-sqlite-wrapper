@@ -1,4 +1,4 @@
-package config
+package pglitewrapper
 
 type DatabaseConfig struct {
 	DSN    string
