@@ -1,9 +1,12 @@
 package pglitewrapper
 
 import (
+	"errors"
+	"fmt"
 	"gorm.io/driver/postgres"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	"time"
 )
 
 type DatabaseWrapper struct {
@@ -12,7 +15,7 @@ type DatabaseWrapper struct {
 	DB       *gorm.DB
 }
 
-func NewDatabaseWrapper(dbConfig *DatabaseConfig, rcConfig *ReconnectConfig) (*DatabaseWrapper, error) {
+func Connect(dbConfig *DatabaseConfig, rcConfig *ReconnectConfig) (*DatabaseWrapper, error) {
 	var db *gorm.DB
 	var err error
 	switch dbConfig.Driver {
@@ -21,7 +24,7 @@ func NewDatabaseWrapper(dbConfig *DatabaseConfig, rcConfig *ReconnectConfig) (*D
 	case "sqlite":
 		db, err = gorm.Open(sqlite.Open(dbConfig.DSN), &gorm.Config{})
 	default:
-		panic("Unsupported database driver: " + dbConfig.Driver)
+		return nil, errors.New("Unsupported database driver: " + dbConfig.Driver)
 	}
 	if err != nil {
 		return nil, err
@@ -29,6 +32,20 @@ func NewDatabaseWrapper(dbConfig *DatabaseConfig, rcConfig *ReconnectConfig) (*D
 	return &DatabaseWrapper{dbConfig: dbConfig, rcConfig: rcConfig, DB: db}, nil
 }
 
-func (dbWrapper *DatabaseWrapper) Reconnect() error {
-	return nil
+func NewDatabaseWrapper(dbConfig *DatabaseConfig, rcConfig *ReconnectConfig) (*DatabaseWrapper, error) {
+	dbWrapper, err := Connect(dbConfig, rcConfig)
+	if !rcConfig.AutoReconnect {
+		return dbWrapper, nil
+	}
+	for rcConfig.Attempts > 0 {
+		dbWrapper, err = Connect(dbConfig, rcConfig)
+		if err == nil {
+			return dbWrapper, nil
+		}
+		fmt.Println("Cannot connect to database retrying")
+		time.Sleep(time.Second * 2)
+		rcConfig.Attempts--
+	}
+	return nil, errors.New("Cannot connect to database ")
+
 }

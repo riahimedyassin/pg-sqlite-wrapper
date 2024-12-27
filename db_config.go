@@ -21,5 +21,8 @@ func NewDatabaseConfig(dsn, driver string) *DatabaseConfig {
 }
 
 func NewReconnectConfig(autoReconnect bool, attempts int) *ReconnectConfig {
+	if attempts <= 0 {
+		panic("NewReconnectConfig: attempts must be > 0")
+	}
 	return &ReconnectConfig{AutoReconnect: autoReconnect, Attempts: attempts}
 }
