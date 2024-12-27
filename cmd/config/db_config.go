@@ -10,8 +10,14 @@ type ReconnectConfig struct {
 	Attempts      int
 }
 
-func NewDatabaseConfig(dsn string) *DatabaseConfig {
-	return &DatabaseConfig{DSN: dsn}
+func NewDatabaseConfig(dsn, driver string) *DatabaseConfig {
+	if driver == "" {
+		panic("NewDatabaseConfig: driver is required")
+	}
+	if dsn == "" {
+		panic("NewDatabaseConfig: DSN is required")
+	}
+	return &DatabaseConfig{DSN: dsn, Driver: driver}
 }
 
 func NewReconnectConfig(autoReconnect bool, attempts int) *ReconnectConfig {
