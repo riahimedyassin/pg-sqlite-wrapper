@@ -1,7 +1,7 @@
 package interfaces
 
 import (
-	"github.com/riahimedyassin/pg-sqlite-wrapper/src/config"
+	"github.com/riahimedyassin/pg-sqlite-wrapper/pgsqlwrapper/config"
 )
 
 type DatabaseWrapper interface {
